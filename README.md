@@ -1,1 +1,1 @@
-# composite-actions -v1
+# composite-actions -v1 -V2
