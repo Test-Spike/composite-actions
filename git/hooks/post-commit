@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+# This file works in conjunction with the commit-msg file.
+# We check if the jira_id is in the staging area. If it is, we include it in the commit that we just did.
+
+jira_id_filename="JIRA_ID.txt"
+
+result=`git status $jira_id_filename`
+
+# if this is true then there is jira_id in staging
+if [[ $result =~ "Changes to be committed" ]]; then
+
+    # no-edit means use that commit message
+    git commit $jira_id_filename --amend --no-edit
+fi
+
+exit 0;
