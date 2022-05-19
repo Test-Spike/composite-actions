@@ -16,7 +16,7 @@ changelog:
       labels:
         - Semver-Minor
         - enhancement
-        -Est
+        - Est
     - title: Other Changes
       labels:
         - "chnage01"
