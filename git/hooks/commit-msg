@@ -1,0 +1,37 @@
+
+#!/usr/bin/env bash
+
+# This file works in conjunction with the post-commit script.
+# This part is to add the JIRA_ID into the staging area.
+# We cannot edit the commit in progress so will amend it in the post-commit.
+
+# Getting the commit message so we can parse it
+message_path_file=$1
+message=`cat ${message_path_file}`
+
+jira_id_filename="JIRA_ID.txt"
+regex="(MFS[[:space:]]*-[[:space:]]*[0-9]+)"
+
+result=`git status $jira_id_filename`
+
+# if this is true then there is jira_id in staging
+if [[ $result =~ "Changes to be committed" ]]; then
+    exit 0
+else
+    # only edit jira_id if it's not in staging
+    # If jira comment then output to file and add to git staging
+    if [[ $message =~ $regex ]] &&
+        id=${BASH_REMATCH[1]} ; then
+        # trims whitespace
+        echo ${id//[[:blank:]]/} > $jira_id_filename
+    else
+        # If there was no jira comment then just continue commit with blank id
+        echo "" > $jira_id_filename
+    fi
+
+    echo `git add $jira_id_filename`
+    echo `git update-index --add $jira_id_filename`
+    # file is now in staging.
+fi
+
+exit 0
