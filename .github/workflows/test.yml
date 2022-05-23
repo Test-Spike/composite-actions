@@ -12,3 +12,21 @@ jobs:
       - uses: actions/checkout@v2
 
       - run: echo "test"
+  Bump_project_version:
+    runs-on: ubuntu-latest
+    outputs:
+      VERSION_BUMP: ${{steps.bump-version-file.outputs.bumped_version}}
+          
+    steps:
+    - name: ============ Checkout the repository Code ========== same as git-repo (get)
+      uses: actions/checkout@v2
+    - run: |
+        git config user.email "gopika.vijayakumar@mnscorp.net"
+        git config --global user.name "DEVSECOPS Service Account"
+    - name: Bump version
+      id: bump-version-file
+      uses: DigitalInnovation/cloud-devsecops-pipelineactions/workflows/CI/bump_version@main
+      with:
+          version_file: ./version
+      env:
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
