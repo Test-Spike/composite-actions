@@ -15,7 +15,7 @@ runs:
   using: "composite"
   steps:
     - uses: actions/checkout@v1
-    - run: echo Hello ${{ inputs.who-to-greet }}.
+    - run: echo Hello ${{ inputs.who-to-greet }}. Test
       shell: bash
     - id: random-number-generator
       run: echo "::set-output name=random-number::$(echo $RANDOM)"
