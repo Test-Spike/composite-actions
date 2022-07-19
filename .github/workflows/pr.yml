@@ -3,6 +3,8 @@ on: pull_request
 jobs:
   make_change:
     runs-on: ubuntu-latest
+    outputs: 
+      new-branch: ${{ steps.check.outputs.new-branch }}
     steps:
       - id: pull
         run: |
@@ -15,12 +17,14 @@ jobs:
       - uses: actions/checkout@v3
         with:
           ref: ${{ steps.pull.outputs.pull_branch}}
-      - run: |
+      - id: check
+        run: |
           git config --global user.name 'Y9886988'
           git config --global user.email 'Y9886988@mnscorp.onmicrosoft.com'
           git clone -b ${{ steps.pull.outputs.pull_branch}} https://github.com/Test-Spike/composite-actions.git
           cd composite-actions
           git checkout branch-${{ steps.pull.outputs.pull_number}}
+          echo "::set-output name=new-branch::branch-${{ steps.pull.outputs.pull_number}}"
           git status
           echo "***************Printing  mentioned places****************"
           grep -rn "@test-comp" *  
@@ -37,12 +41,13 @@ jobs:
 
 
   hello_world_job:
+    needs: [make_change]
     runs-on: ubuntu-latest
     name: A job to say hello
     steps:
       - uses: actions/checkout@v3
       - id: foo
-        uses: Test-Spike/composite-actions@test-comp
+        uses: Test-Spike/composite-actions@${{needs.make_change.outputs.new-branch}}
         with:
           who-to-greet: 'Gopika'
       - run: echo random-number ${{ steps.foo.outputs.random-number }}
