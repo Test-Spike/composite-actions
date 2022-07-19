@@ -11,7 +11,7 @@ jobs:
              pull_branch=$(jq --raw-output .pull_request.head.ref "$GITHUB_EVENT_PATH")
              echo "Pull request Branch: $pull_branch"
              echo "::set-output name=pull_branch::$pull_branch"
-             pull_number=$(jq --raw-output .pull_request.head.ref "$GITHUB_EVENT_PATH")
+             pull_number=$(jq --raw-output .pull_request.number "$GITHUB_EVENT_PATH")
              echo "Pull request Number: $pull_number"
              echo "::set-output name=pull_number::$pull_number"
       - uses: actions/checkout@v3
@@ -19,8 +19,8 @@ jobs:
           ref: ${{ steps.pull.outputs.pull_branch}}
       - id: check
         run: |
-          git config --global user.name 'Y9886988'
-          git config --global user.email 'Y9886988@mnscorp.onmicrosoft.com'
+          git config --global user.name 'GopikaV24'
+          git config --global user.email 'gopika.vijayakumar@mnscorp.net'
           git clone -b ${{ steps.pull.outputs.pull_branch}} https://github.com/Test-Spike/composite-actions.git
           cd composite-actions
           git checkout branch-${{ steps.pull.outputs.pull_number}}
