@@ -16,7 +16,7 @@ runs:
   steps:
     - run: echo Hello ${{ inputs.who-to-greet }}. Test
       shell: bash
-    #- id: foo
-     # uses: Test-Spike/composite-actions@test-comp
-     # with:
-     #     who-to-greet: 'NAVEEN'
+    - id: foo
+      uses: Test-Spike/composite-actions/one@test-comp
+      with:
+          who-to-greet: 'NAVEEN'
