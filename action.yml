@@ -19,4 +19,4 @@ runs:
     - id: foo
       uses: Test-Spike/composite-actions/one@test-comp
       with:
-          who-to-greet: 'NAVEEN'
+          who-to-greet: 'NAVEEN KUMAR'
