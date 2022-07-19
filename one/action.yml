@@ -14,8 +14,6 @@ outputs:
 runs:
   using: "composite"
   steps:
-    - uses: actions/checkout@v1
-    - run: echo Hello ${{ inputs.who-to-greet }}.
-      shell: bash
     - run: echo "NAVEEN"
+      shell: bash
 
