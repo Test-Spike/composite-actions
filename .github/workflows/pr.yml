@@ -15,11 +15,26 @@ jobs:
       - uses: actions/checkout@v3
         with:
           ref: ${{ steps.pull.outputs.pull_branch}}
-      - run: git checkout branch-${{ steps.pull.outputs.pull_number}}
-      - uses: actions/checkout@v3
-        with:
-          ref: branch-${{ steps.pull.outputs.pull_number}}
-      - run: ls -lrt
+      - run: |
+          git config --global user.name 'Y9886988'
+          git config --global user.email 'Y9886988@mnscorp.onmicrosoft.com'
+          git clone -b ${{ steps.pull.outputs.pull_branch}} https://github.com/Test-Spike/composite-actions.git
+          cd composite-actions
+          git checkout branch-${{ steps.pull.outputs.pull_number}}
+          git status
+          echo "***************Printing  mentioned places****************"
+          grep -rn "@test-comp" *  
+          echo "******************Replacing  with  in all action.yml files*******************"
+          find ./ -type f -exec sed -i -e "s|@test-comp|@branch-${{ steps.pull.outputs.pull_number}}|g" {} \;
+          #find ./workflows/ -type f -exec sed -i -e "s|@latest|@$new_tag|g" {} \;
+          echo "Replacing  with  in all action.yml files"
+          echo "******************After replacing new version, Printing  mentioned places**************************"
+          grep -rn "@branch-${{ steps.pull.outputs.pull_number}}" *
+          echo "*********************Pushing changes into the main branch***********************"
+          git add .
+          git commit -am "Replacing"
+          git push
+
 
   hello_world_job:
     runs-on: ubuntu-latest
