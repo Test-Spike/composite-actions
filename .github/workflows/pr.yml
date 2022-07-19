@@ -1,6 +1,26 @@
 on: pull_request
 
 jobs:
+  make_change:
+    runs-on: ubuntu-latest
+    steps:
+      - id: pull
+        run: |
+             pull_branch=$(jq --raw-output .pull_request.head.ref "$GITHUB_EVENT_PATH")
+             echo "Pull request Branch: $pull_branch"
+             echo "::set-output name=pull_branch::$pull_branch"
+             pull_number=$(jq --raw-output .pull_request.head.ref "$GITHUB_EVENT_PATH")
+             echo "Pull request Number: $pull_number"
+             echo "::set-output name=pull_number::$pull_number"
+      - uses: actions/checkout@v3
+        with:
+          ref: ${{ steps.pull.outputs.pull_branch}}
+      - run: git checkout branch-${{ steps.pull.outputs.pull_number}}
+      - uses: actions/checkout@v3
+        with:
+          ref: branch-${{ steps.pull.outputs.pull_number}}
+      - run: ls -lrt
+
   hello_world_job:
     runs-on: ubuntu-latest
     name: A job to say hello
