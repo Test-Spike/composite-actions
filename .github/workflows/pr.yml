@@ -19,8 +19,6 @@ jobs:
           ref: ${{ steps.pull.outputs.pull_branch}}
       - id: check
         run: |
-          git config --global user.name 'GopikaV24'
-          git config --global user.email 'gopika.vijayakumar@mnscorp.net'
           git clone -b ${{ steps.pull.outputs.pull_branch}} https://github.com/Test-Spike/composite-actions.git
           cd composite-actions
           git checkout -b branch-${{ steps.pull.outputs.pull_number}}
@@ -35,6 +33,8 @@ jobs:
           echo "******************After replacing new version, Printing  mentioned places**************************"
           grep -rn "@branch-${{ steps.pull.outputs.pull_number}}" *
           echo "*********************Pushing changes into the main branch***********************"
+          git config --global user.name 'GopikaV24'
+          git config --global user.email 'gopika.vijayakumar@mnscorp.net'
           git add .
           git commit -am "Replacing"
           git push origin branch-${{ steps.pull.outputs.pull_number}}
