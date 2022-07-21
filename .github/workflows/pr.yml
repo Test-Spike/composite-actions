@@ -56,7 +56,7 @@ jobs:
              echo "::set-output name=pull_number::$pull_number"
       - uses: actions/checkout@v3
       - id: foo
-        uses: Test-Spike/composite-actions@branch-15
+        uses: Test-Spike/composite-actions@branch-17
         with:
           who-to-greet: 'Gopika'
       - run: echo random-number ${{ steps.foo.outputs.random-number }}
