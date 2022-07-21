@@ -25,6 +25,7 @@ jobs:
           cd composite-actions
           git checkout -b branch-${{ steps.pull.outputs.pull_number}}
           echo "::set-output name=new-branch::branch-${{ steps.pull.outputs.pull_number}}"
+          git commit -m "feat: Create index.html"
           git status
           echo "***************Printing  mentioned places****************"
           grep -rn "@test-comp" *  
