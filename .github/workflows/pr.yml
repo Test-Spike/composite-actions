@@ -25,21 +25,21 @@ jobs:
           git clone https://GopikaV24:${{secrets.TOKEN}}@github.com/Test-Spike/composite-actions.git
           cd composite-actions
           git checkout ${{ steps.pull.outputs.pull_branch}}
-          git checkout -b branch-${{ steps.pull.outputs.pull_number}}
+          git checkout -b branch-pull
           echo "::set-output name=new-branch::branch-${{ steps.pull.outputs.pull_number}}"
           git status
           echo "***************Printing  mentioned places****************"
           grep -rn "@test-comp" *  
           echo "******************Replacing  with  in all action.yml files*******************"
-          find ./ -type f -exec sed -i -e "s|@test-comp|@branch-${{ steps.pull.outputs.pull_number}}|g" {} \;
+          find ./ -type f -exec sed -i -e "s|@test-comp|@branch-pull|g" {} \;
           #find ./workflows/ -type f -exec sed -i -e "s|@latest|@$new_tag|g" {} \;
           echo "Replacing  with  in all action.yml files"
           echo "******************After replacing new version, Printing  mentioned places**************************"
-          grep -rn "@branch-${{ steps.pull.outputs.pull_number}}" *
+          grep -rn "@branch-pull" *
           echo "*********************Pushing changes into the main branch***********************"
           git add .
           git commit -am "Replacing"
-          git push origin branch-${{ steps.pull.outputs.pull_number}}
+          git push origin branch-pull
 
 
   hello_world_job:
@@ -57,8 +57,14 @@ jobs:
              echo "::set-output name=pull_number::$pull_number"
       - uses: actions/checkout@v3
       - id: foo
-        uses: Test-Spike/composite-actions@branch-21
+        uses: Test-Spike/composite-actions@branch-pull
         with:
           who-to-greet: 'Gopika'
       - run: echo random-number ${{ steps.foo.outputs.random-number }}
         shell: bash
+      - run: |
+          curl \
+          -X DELETE \
+          -H "Accept: application/vnd.github+json" \ 
+          -H "Authorization: token ${{secrets.TOKEN}}" \
+          https://api.github.com/repos/Test-Spike/composite-actions/git/refs/branch-pull
