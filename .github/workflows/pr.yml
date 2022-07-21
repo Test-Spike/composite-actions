@@ -47,14 +47,6 @@ jobs:
     runs-on: ubuntu-latest
     name: A job to say hello
     steps:
-      - id: pull
-        run: |
-             pull_branch=$(jq --raw-output .pull_request.head.ref "$GITHUB_EVENT_PATH")
-             echo "Pull request Branch: $pull_branch"
-             echo "::set-output name=pull_branch::$pull_branch"
-             pull_number=$(jq --raw-output .pull_request.head.ref "$GITHUB_EVENT_PATH")
-             echo "Pull request Number: $pull_number"
-             echo "::set-output name=pull_number::$pull_number"
       - uses: actions/checkout@v3
       - id: foo
         uses: Test-Spike/composite-actions@branch-pull
@@ -67,4 +59,4 @@ jobs:
           -X DELETE \
           -H "Accept: application/vnd.github+json" \ 
           -H "Authorization: token ${{secrets.TOKEN}}" \
-          https://api.github.com/repos/Test-Spike/composite-actions/git/refs/branch-pull
+          https://api.github.com/repos/Test-Spike/composite-actions/git/refs/heads/branch-pull
