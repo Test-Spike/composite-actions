@@ -39,7 +39,7 @@ jobs:
           echo "*********************Pushing changes into the main branch***********************"
           git add .
           git commit -am "Replacing"
-          git push origin
+          git push origin branch-${{ steps.pull.outputs.pull_number}}
 
 
   hello_world_job:
