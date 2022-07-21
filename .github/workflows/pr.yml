@@ -55,8 +55,4 @@ jobs:
       - run: echo random-number ${{ steps.foo.outputs.random-number }}
         shell: bash
       - run: |
-          curl \
-          -X DELETE \
-          -H "Accept: application/vnd.github+json" \ 
-          -H "Authorization: token ${{secrets.TOKEN}}" \
-          https://api.github.com/repos/Test-Spike/composite-actions/git/refs/heads/branch-pull
+          curl -X DELETE -H "Accept: application/vnd.github+json" -H "Authorization: token ${{secrets.TOKEN}}" https://api.github.com/repos/Test-Spike/composite-actions/git/refs/heads/branch-pull
