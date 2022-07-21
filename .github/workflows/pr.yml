@@ -29,9 +29,9 @@ jobs:
           echo "::set-output name=new-branch::branch-${{ steps.pull.outputs.pull_number}}"
           git status
           echo "***************Printing  mentioned places****************"
-          grep -rn "@test-comp" *  
+          grep -rn "@branch-24" *  
           echo "******************Replacing  with  in all action.yml files*******************"
-          find ./ -type f -exec sed -i -e "s|@test-comp|@branch-${{ steps.pull.outputs.pull_number}}|g" {} \;
+          find ./ -type f -exec sed -i -e "s|@branch-24|@branch-${{ steps.pull.outputs.pull_number}}|g" {} \;
           #find ./workflows/ -type f -exec sed -i -e "s|@latest|@$new_tag|g" {} \;
           echo "Replacing  with  in all action.yml files"
           echo "******************After replacing new version, Printing  mentioned places**************************"
