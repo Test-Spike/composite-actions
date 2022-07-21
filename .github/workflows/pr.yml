@@ -22,7 +22,7 @@ jobs:
           git config --global user.name 'GopikaV24'
           git config --global user.email 'gopika.vijayakumar@mnscorp.net'
           git remote set-url origin https://GopikaV24:${{secrets.GITHUB_TOKEN}}@github.com/Test-Spike/composite-actions.git
-          git clone https://github.com/Test-Spike/composite-actions.git
+          git clone https://GopikaV24:${{secrets.GITHUB_TOKEN}}@github.com/Test-Spike/composite-actions.git
           cd composite-actions
           git checkout ${{ steps.pull.outputs.pull_branch}}
           git checkout -b branch-${{ steps.pull.outputs.pull_number}}
